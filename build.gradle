@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+apply from: "${projectDir}/openapi.gradle"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation "io.micronaut:micronaut-runtime"
+
+    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+}

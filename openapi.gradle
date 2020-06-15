@@ -1,0 +1,77 @@
+sourceSets {
+    openapi {
+        java {
+            srcDirs = [
+                'src/main/java',
+                'src/openapi/java'
+            ]
+        }
+    }
+}
+
+configurations {
+    openapi {
+        canBeConsumed = true
+        canBeResolved = false
+    }
+}
+
+dependencies {
+    openapiAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    openapiAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    openapiAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    openapiCompileOnly "io.micronaut:micronaut-runtime"
+    openapiAnnotationProcessor 'io.micronaut.configuration:micronaut-openapi:1.5.1'
+
+    openapiImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    openapiImplementation 'io.swagger.core.v3:swagger-annotations'
+
+    openapiCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+}
+
+compileOpenapiJava {
+    options.fork = true
+    options.compilerArgs << '-parameters'
+    inputs.file('openapi.properties')
+}
+
+task openapiJar(type: Jar, group: 'OpenAPI', description: 'Create jar containing the generated openapi files.') {
+    archiveBaseName.set 'openapi'
+    from(compileOpenapiJava.outputs) {
+        include '**/*.yml'
+        include '**/*.html'
+        eachFile { FileCopyDetails fcd -> fcd.path -= 'swagger/views/' }
+    }
+    includeEmptyDirs = false
+}
+
+assemble.dependsOn 'openapiJar'
+
+task openapiCopy(type: Copy, group: 'OpenAPI', description: 'Make it easier to serve the generated openapi files.') {
+    from(compileOpenapiJava.outputs) {
+        include '**/*.yml'
+        include '**/*.html'
+        eachFile { FileCopyDetails fcd ->
+            fcd.path = fcd.path.replace('META-INF/', '').replace('views/', '')
+        }
+    }
+    into "${buildDir}/openapi"
+    includeEmptyDirs = false
+    doLast {
+        logger.lifecycle(
+            '''
+            The generated openapi files have been copied to build/openapi. 
+            They can be served using `python -m SimpleHTTPServer`.
+            '''.stripIndent()
+        )
+    }
+}
+
+assemble.dependsOn 'openapiCopy'
+
+artifacts {
+    openapi(openapiJar.archiveFile) {
+        builtBy(openapiJar)
+    }
+}
