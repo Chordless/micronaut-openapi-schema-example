@@ -11,4 +11,12 @@ public class Quantity<Q extends Quantity, U extends Unit> {
         this.amount = amount;
         this.unit = unit;
     }
+
+    public BigDecimal amount() {
+        return amount;
+    }
+
+    public U unit() {
+        return unit;
+    }
 }
