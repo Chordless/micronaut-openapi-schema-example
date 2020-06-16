@@ -12,11 +12,11 @@ public class Quantity<Q extends Quantity, U extends Unit> {
         this.unit = unit;
     }
 
-    public BigDecimal amount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public U unit() {
+    public U getUnit() {
         return unit;
     }
 }
