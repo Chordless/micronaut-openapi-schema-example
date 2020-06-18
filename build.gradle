@@ -4,6 +4,7 @@ plugins {
 apply from: "${projectDir}/openapi.gradle"
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 

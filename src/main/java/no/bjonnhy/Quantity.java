@@ -22,12 +22,4 @@ public class Quantity<Q extends Quantity, U extends Unit> implements Serializabl
     public U getUnit() {
         return unit;
     }
-
-    public void setUnit(U unit) {
-        throw new UnsupportedOperationException("Quantities can't change");
-    }
-
-    public void setAmount(BigDecimal amount) {
-        throw new UnsupportedOperationException("Quantities can't change");
-    }
 }

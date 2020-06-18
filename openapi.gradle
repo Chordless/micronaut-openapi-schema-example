@@ -22,7 +22,8 @@ dependencies {
     openapiAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     openapiAnnotationProcessor "io.micronaut:micronaut-inject-java"
     openapiCompileOnly "io.micronaut:micronaut-runtime"
-    openapiAnnotationProcessor 'io.micronaut.configuration:micronaut-openapi:1.5.1'
+//    openapiAnnotationProcessor 'io.micronaut.configuration:micronaut-openapi:1.5.1'
+    openapiAnnotationProcessor 'io.micronaut.configuration:micronaut-openapi:1.5.2.BUILD-SNAPSHOT'
 
     openapiImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     openapiImplementation 'io.swagger.core.v3:swagger-annotations'
