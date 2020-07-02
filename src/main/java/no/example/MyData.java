@@ -12,7 +12,8 @@ public class MyData {
         return simpleField;
     }
 
-    /** JavaDoc for custom typed property (never gets shown anywhere). */
+    /** JavaDoc for custom typed property (never gets shown anywhere).
+     * @return An object of type CustomObject */
     public CustomObject getComplexField() {
         return complexField;
     }
